@@ -52,13 +52,13 @@ protected:
 };
 
 // template <typename T>
-// bool operator==(const TUniquePtr<T> &a, const TUniquePtr<T> &b)
+// bool operator==(const std::unique_ptr<T> &a, const std::unique_ptr<T> &b)
 // {
 //     return (*a) == (*b);
 // };
 
 // template <typename T>
-// bool operator!=(const TUniquePtr<T> &a, const TUniquePtr<T> &b)
+// bool operator!=(const std::unique_ptr<T> &a, const std::unique_ptr<T> &b)
 // {
 //     return (*a) != (*b);
 // };

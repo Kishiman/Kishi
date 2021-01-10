@@ -11,13 +11,13 @@
 #define _BASEY Base<_Y, void>
 template <typename Y, typename X>
 struct ThBaseOperator;
-template <typename Y, typename X, template <typename, typename> class Base>
+template <typename Y, typename X, template <typename, typename> class Base=ThBaseOperator>
 struct OperatorRoot : Expression<Base<Y, X>>
 {
     DOWNSOLVEOVERRIDE(OperatorRoot)
     virtual void DownSolve() override
     {
-        UE_LOG(LogTemp, Warning, TEXT("OperatorRoot downsolve (%d)"), this);
+        //UE_LOG(LogTemp, Warning, TEXT("OperatorRoot downsolve (%d)"), this);
     };
     struct Sym : public Symbol<BASEYX>
     {
@@ -62,7 +62,7 @@ struct OperatorRoot<Y, void, Base> : Expression<Base<Y, void>>
     DOWNSOLVEOVERRIDE(OperatorRoot)
     virtual void DownSolve() override
     {
-        UE_LOG(LogTemp, Warning, TEXT("OperatorRoot downsolve (%d)"), this);
+        //UE_LOG(LogTemp, Warning, TEXT("OperatorRoot downsolve (%d)"), this);
     };
     virtual Y operator()() const = 0;
     struct Sym : public Symbol<BASEY>

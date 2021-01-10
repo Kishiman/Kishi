@@ -130,18 +130,18 @@ struct ThBaseOperatorInt : ThOperatorInt<Y, X>
 {
 };
 template <typename _Y, typename _X, template <typename, typename> class Base>
-Ptr<_BASEYX> operator+(Ptr<Base<_Y, _X>> a, _BASEYX &other)
+Ptr<_BASEYX> operator+(Ptr<_BASEYX> a, _BASEYX &other)
 {
     return (*a) + other;
 };
 template <typename _Y, typename _X, template <typename, typename> class Base>
-Ptr<_BASEYX> operator-(Ptr<Base<_Y, _X>> a, _BASEYX &other)
+Ptr<_BASEYX> operator-(Ptr<_BASEYX> a, _BASEYX &other)
 {
     return (*a) - other;
 };
 
 template <typename _Y, typename _X, template <typename, typename> class Base>
-Ptr<_BASEYX> operator-(Ptr<Base<_Y, _X>> a)
+Ptr<_BASEYX> operator-(Ptr<_BASEYX> a)
 {
     return -(*a);
 };

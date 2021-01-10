@@ -7,12 +7,12 @@ class TVariable
 {
     #define Order derivates.Num()
 private:
-    TArray<T> derivates;
+    std::vector<T> derivates;
 public:
 
     TVariable()=default;
     TVariable(T* derivs, int count):derivates(derivs,count){}
-    TVariable(TArray<T> derivs):derivates(derivs){}
+    TVariable(std::vector<T> derivs):derivates(derivs){}
     TVariable(T derivs, ... ){
         va_list list;
         va_start(list,derivs);

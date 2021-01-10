@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class __undefined;
+// class __undefined;
 
 // Given Template<T, ...> return T, otherwise invalid.
 template <typename _Tp>

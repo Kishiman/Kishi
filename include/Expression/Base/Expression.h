@@ -55,7 +55,7 @@ struct Expression
 
   virtual ~Expression()
   {
-    UE_LOG(LogTemp, Warning, TEXT("Expression Destractor (%d)'deleted'"), this);
+    //UE_LOG(LogTemp, Warning, TEXT("Expression Destractor (%d)'deleted'"), this);
   }
   /*
   UpSolve is called by another expression that depends on when destructed.
@@ -65,7 +65,7 @@ struct Expression
 */
   virtual void UpSolve()
   {
-    UE_LOG(LogTemp, Warning, TEXT("Expression UpSolve (%d)'Harmless'"), this);
+    //UE_LOG(LogTemp, Warning, TEXT("Expression UpSolve (%d)'Harmless'"), this);
   }
   /*
   DownSolve is called by the expression when it is destructed. It aims to solve its dependencies if needed 
@@ -101,13 +101,13 @@ struct UnaryExpression : public T
   DOWNSOLVEOVERRIDE(UnaryExpression)
   virtual void DownSolve() override
   {
-    UE_LOG(LogTemp, Warning, TEXT("Symbol downsolve (%d) upsolve(%d)"), this, express);
+    //UE_LOG(LogTemp, Warning, TEXT("Symbol downsolve (%d) upsolve(%d)"), this, express);
     if (express != nullptr)
       express->UpSolve();
   };
   virtual void UpSolve()
   {
-    UE_LOG(LogTemp, Warning, TEXT("UnaryExpression UpSolve (%d)'deleted'"), this);
+    //UE_LOG(LogTemp, Warning, TEXT("UnaryExpression UpSolve (%d)'deleted'"), this);
     delete this;
   }
   virtual void *Clone() override
@@ -140,13 +140,13 @@ struct UnaryExpression_A : public T
   DOWNSOLVEOVERRIDE(UnaryExpression_A)
   virtual void DownSolve() override
   {
-    UE_LOG(LogTemp, Warning, TEXT("Symbol downsolve (%d) upsolve(%d)"), this, express);
+    //UE_LOG(LogTemp, Warning, TEXT("Symbol downsolve (%d) upsolve(%d)"), this, express);
     if (express != nullptr)
       express->UpSolve();
   };
   virtual void UpSolve()
   {
-    UE_LOG(LogTemp, Warning, TEXT("UnaryExpression UpSolve (%d)'deleted'"), this);
+    //UE_LOG(LogTemp, Warning, TEXT("UnaryExpression UpSolve (%d)'deleted'"), this);
     delete this;
   }
   virtual void *Clone() override
@@ -180,7 +180,7 @@ struct BinaryExpression : public T
   DOWNSOLVEOVERRIDE(BinaryExpression)
   virtual void DownSolve() override
   {
-    UE_LOG(LogTemp, Warning, TEXT("BINARY downsolve (%d) upsolve(%d), upsolve(%d)"), this, a, b);
+    //UE_LOG(LogTemp, Warning, TEXT("BINARY downsolve (%d) upsolve(%d), upsolve(%d)"), this, a, b);
 
     if (a != nullptr)
       a->UpSolve();
@@ -189,7 +189,7 @@ struct BinaryExpression : public T
   }
   virtual void UpSolve()
   {
-    UE_LOG(LogTemp, Warning, TEXT("BinaryExpression UpSolve (%d)'deleted'"), this);
+    //UE_LOG(LogTemp, Warning, TEXT("BinaryExpression UpSolve (%d)'deleted'"), this);
     delete this;
   }
   BinaryExpression(T *a, T *b) : a(a), b(b){};
@@ -224,7 +224,7 @@ struct BinaryExpression_A : public T
   DOWNSOLVEOVERRIDE(BinaryExpression_A)
   virtual void DownSolve() override
   {
-    UE_LOG(LogTemp, Warning, TEXT("BINARY downsolve (%d) upsolve(%d), upsolve(%d)"), this, a, b);
+    //UE_LOG(LogTemp, Warning, TEXT("BINARY downsolve (%d) upsolve(%d), upsolve(%d)"), this, a, b);
 
     if (a != nullptr)
       a->UpSolve();
@@ -233,7 +233,7 @@ struct BinaryExpression_A : public T
   }
   virtual void UpSolve()
   {
-    UE_LOG(LogTemp, Warning, TEXT("BinaryExpression_A UpSolve (%d)'deleted'"), this);
+    //UE_LOG(LogTemp, Warning, TEXT("BinaryExpression_A UpSolve (%d)'deleted'"), this);
     delete this;
   }
   BinaryExpression_A(T *a, T *b, C c) : a(a), b(b), c(c){};
@@ -271,7 +271,7 @@ struct HBinaryExpression : public T
 
   virtual void DownSolve() override
   {
-    UE_LOG(LogTemp, Warning, TEXT("HBINARY downsolve (%d) upsolve(%d), upsolve(%d)"), this, a, b);
+    //UE_LOG(LogTemp, Warning, TEXT("HBINARY downsolve (%d) upsolve(%d), upsolve(%d)"), this, a, b);
 
     if (a != nullptr)
       a->UpSolve();
@@ -280,7 +280,7 @@ struct HBinaryExpression : public T
   }
   virtual void UpSolve()
   {
-    UE_LOG(LogTemp, Warning, TEXT("HBinaryExpression UpSolve (%d)'deleted'"), this);
+    //UE_LOG(LogTemp, Warning, TEXT("HBinaryExpression UpSolve (%d)'deleted'"), this);
     delete this;
   }
   HBinaryExpression(A *a, B *b) : a(a), b(b){};
@@ -318,7 +318,7 @@ struct Symbol : public T
   DOWNSOLVEOVERRIDE(Symbol)
   virtual void DownSolve() override
   {
-    UE_LOG(LogTemp, Warning, TEXT("Symbol downsolve (%d) upsolve(%d)"), this, express);
+    //UE_LOG(LogTemp, Warning, TEXT("Symbol downsolve (%d) upsolve(%d)"), this, express);
     if (express != nullptr)
       express->UpSolve();
   };
@@ -327,7 +327,7 @@ struct Symbol : public T
   Symbol(const T *exp) : express(const_cast<T *>(exp)){};
   Symbol(Symbol &&other) : express(other.express)
   {
-    UE_LOG(LogTemp, Warning, TEXT("calling Clone constructor %d"), this);
+    //UE_LOG(LogTemp, Warning, TEXT("calling Clone constructor %d"), this);
     other.express = nullptr;
   }
   Symbol(Symbol &other) : Symbol(std::move(other))

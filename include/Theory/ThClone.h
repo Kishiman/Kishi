@@ -17,9 +17,9 @@ class ThClone<T, TheoryAssumtion::stand> : public Theory<ThClone<T, TheoryAssumt
 {
 public:
     virtual ~ThClone() = default;
-    TUniquePtr<T> Clone_ptr() const
+    std::unique_ptr<T> Clone_ptr() const
     {
-        return TUniquePtr<T>(this->Clone());
+        return std::unique_ptr<T>(this->Clone());
     }
     T *Clone() const
     {
@@ -39,9 +39,9 @@ class ThClone<T, TheoryAssumtion::promise> : public Theory<ThClone<T, TheoryAssu
 {
 public:
     virtual ~ThClone() = default;
-    TUniquePtr<T> Clone_ptr() const
+    std::unique_ptr<T> Clone_ptr() const
     {
-        return TUniquePtr<T>(this->Clone());
+        return std::unique_ptr<T>(this->Clone());
     }
     T *Clone() const
     {

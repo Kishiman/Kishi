@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
-#include "Runtime/Core/Public/Math/UnrealMathUtility.h"
+#include <stdlib.h>
+#include <cmath>
 
 #define pow2(a) (a * a)
 #define pow3(a) (a * a * a)
+#define sign(a) (a<0 ? -1 : 1)
 class KishiMath
 {
 public:
@@ -20,9 +21,9 @@ public:
         float delta = (b * b - 4 * a * c);
         if (delta < 0)
             return false;
-        delta = UKismetMathLibrary::Sqrt(delta);
-        x1 = (-b - delta * UKismetMathLibrary::SignOfFloat(a)) / (2 * a);
-        x2 = (-b + delta * UKismetMathLibrary::SignOfFloat(a)) / (2 * a);
+        delta = sqrtf(delta);
+        x1 = (-b - delta * sign(a)) / (2 * a);
+        x2 = (-b + delta * sign(a)) / (2 * a);
         return true;
     }
     static bool SolveLinearEquation(float a, float b, float &x)
@@ -44,12 +45,12 @@ public:
     }
     static float ModInPI(float x)
     {
-        return ModInRange(x, -UKismetMathLibrary::GetPI(), UKismetMathLibrary::GetPI());
+        return ModInRange(x, -M_PI, M_PI);
     }
 
     static float Mod(float x, float y)
     {
-        int div = UKismetMathLibrary::FFloor(x / y);
+        int div = floorf(x / y);
         return x - y * div;
     }
     static float ForwardAndBackward(float x, float min, float max)
@@ -68,7 +69,7 @@ public:
     }
     static float ForwardAndBackward(float x, float y, bool &forward)
     {
-        int div = UKismetMathLibrary::FFloor(x / y);
+        int div = floorf(x / y);
         if (div % 2 == 0)
         {
             forward = true;
@@ -83,13 +84,13 @@ public:
 
     static float RelativeAngleInRad(float angle)
     {
-        while (angle < -UKismetMathLibrary::GetPI() || angle > UKismetMathLibrary::GetPI())
+        while (angle < -M_PI || angle > M_PI)
         {
 
             if (angle > 0)
-                angle -= UKismetMathLibrary::GetPI() * 2;
+                angle -= M_PI * 2;
             else
-                angle += UKismetMathLibrary::GetPI() * 2;
+                angle += M_PI * 2;
         }
         return angle;
     }
@@ -105,7 +106,7 @@ public:
     {
         while (angle < 0)
         {
-            angle += UKismetMathLibrary::GetPI() * 2;
+            angle += M_PI * 2;
         }
         return angle;
     };

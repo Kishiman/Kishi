@@ -1,6 +1,6 @@
 #pragma once
 
-#include "./Compatibility.h"
+#include "Compatibility.h"
 #include "Traits.h"
 
 //KeyMask Template for definig abstract classes
@@ -15,9 +15,9 @@ class IClonable : public bases...
 {
 public:
   virtual ~IClonable() = default;
-  TUniquePtr<T> Clone_ptr() const
+  std::unique_ptr<T> Clone_ptr() const
   {
-    return TUniquePtr<T>(this->Clone());
+    return std::unique_ptr<T>(this->Clone());
   }
   T *Clone() const
   {
@@ -41,9 +41,9 @@ class IClonable<T, false, bases...> : public bases...
 public:
   virtual ~IClonable() = default;
 
-  TUniquePtr<T> Clone_ptr() const
+  std::unique_ptr<T> Clone_ptr() const
   {
-    return TUniquePtr<T>(this->Clone());
+    return std::unique_ptr<T>(this->Clone());
   }
 
   T *Clone() const
@@ -64,9 +64,9 @@ class IClonable<DERIVEDCRTP<T, true, bases...>, true> : public bases...
 {
 public:
   virtual ~IClonable() = default;
-  TUniquePtr<T> Clone_ptr() const
+  std::unique_ptr<T> Clone_ptr() const
   {
-    return TUniquePtr<T>(this->Clone());
+    return std::unique_ptr<T>(this->Clone());
   }
   T *Clone() const
   {
@@ -90,9 +90,9 @@ class IClonable<DERIVEDCRTP<T, false, bases...>, false> : public bases...
 public:
   virtual ~IClonable() = default;
 
-  TUniquePtr<T> Clone_ptr() const
+  std::unique_ptr<T> Clone_ptr() const
   {
-    return TUniquePtr<T>(this->Clone());
+    return std::unique_ptr<T>(this->Clone());
   }
 
   T *Clone() const
@@ -166,14 +166,14 @@ T &Tmp(T &object)
   T *tmp = &object;
   return (*tmp);
 }
-template <typename T>
-void AddToArray(TArray<T> &array, T elements, ...)
-{
-  va_list list;
-  va_start(list, elements);
-  for (int i = 0; i < array.Num(); i++)
-  {
-    array.Add(va_arg(list, T));
-  }
-  return array;
-}
+// template <typename T>
+// void AddToArray(std::vector<T> &array, T elements, ...)
+// {
+//   va_list list;
+//   va_start(list, elements);
+//   for (int i = 0; i < array.Num(); i++)
+//   {
+//     array.Add(va_arg(list, T));
+//   }
+//   return array;
+// }
