@@ -2,72 +2,61 @@
 #include "Math.h"
 #include <stdarg.h>
 
-template <typename T>
-class TVariable
-{
-    #define Order derivates.Num()
+template <typename T> class TVariable {
+#define Order derivates.Num()
 private:
-    std::vector<T> derivates;
+  std::vector<T> derivates;
+
 public:
+  TVariable() = default;
+  TVariable(T *derivs, int count) : derivates(derivs, count) {}
+  TVariable(std::vector<T> derivs) : derivates(derivs) {}
+  TVariable(T derivs, ...) {
+    va_list list;
+    va_start(list, derivs);
+    for (int i = 0; i < derivs; i++) {
+      derivates.Add(va_arg(list, T));
+    }
+  }
 
-    TVariable()=default;
-    TVariable(T* derivs, int count):derivates(derivs,count){}
-    TVariable(std::vector<T> derivs):derivates(derivs){}
-    TVariable(T derivs, ... ){
-        va_list list;
-        va_start(list,derivs);
-        for (int i = 0; i < derivs; i++)
-        {
-            derivates.Add(va_arg(list,T));
-        }
+  T operator[](int index) {
+    if (index < 0) {
+      throw;
     }
 
-    T operator[](int index){
-        if (index<0)
-        {
-            throw;
-        }
-        
-         return GetDerivate(index);
-        
-        
+    return GetDerivate(index);
+  }
+  int GetOrder() { return Order; }
+  T GetDerivate(int index) {
+    if (index < 0 || index > derivates.Num()) {
+      return T();
     }
-    int GetOrder(){
-        return Order;
+    return derivates[index];
+  }
+  T GetPrimitive(int index, float dTime) {
+    if (index < 0) {
+      return T();
     }
-    T GetDerivate(int index){
-        if(index<0 || index>derivates.Num()){
-            return T();
-        }
-        return derivates[index];
+    T primitive = derivates[0];
+    for (int i = 0; i < index; i++) {
+      primitive *= dTime;
     }
-    T GetPrimitive(int index,float dTime){
-        if(index<0){
-            return T();
-        }
-        T primitive=derivates[0];
-        for (int i = 0; i < index; i++)
-        {
-            primitive*=dTime;
-        }
-        return primitive;
+    return primitive;
+  }
+  TVariable PropagateFrom(T value, int index, float dTime) {
+    T tmp = *this[index];
+    derivates[index] = value;
+    for (int i = index + 1; i < derivates.Num(); i++) {
+      T tmp2 = derivates[i];
+      derivates[i] = (derivates[i - 1] - tmp) / dTime;
+      tmp = tmp2;
     }
-    TVariable PropagateFrom(T value, int index, float dTime){
-        T tmp=*this[index];
-        derivates[index]=value;
-        for (int i = index+1; i < derivates.Num(); i++)
-        {
-            T tmp2=derivates[i];
-            derivates[i]=(derivates[i-1]-tmp)/dTime;
-            tmp=tmp2;
-        }
-        for (int i = index - 1; i >= 0; i--)
-        {
-            derivates[i]+=(derivates[i+1]*dTime);
-        }
+    for (int i = index - 1; i >= 0; i--) {
+      derivates[i] += (derivates[i + 1] * dTime);
     }
-    TVariable &GetVariableDerivated(int index){
-        TVariable clone=*(new TVariable(&(derivates[index], Order-index)));
-        return clone;
-    }
+  }
+  TVariable &GetVariableDerivated(int index) {
+    TVariable clone = *(new TVariable(&(derivates[index], Order - index)));
+    return clone;
+  }
 };

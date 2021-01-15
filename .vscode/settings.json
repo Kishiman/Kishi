@@ -1,0 +1,10 @@
+{
+    "cmake.configureOnOpen": true,
+    "files.associations": {
+        "*.ush": "hlsl",
+        "*.usf": "hlsl",
+        "*.uplugin": "json",
+        "*.uproject": "json",
+        "cmath": "cpp"
+    }
+}

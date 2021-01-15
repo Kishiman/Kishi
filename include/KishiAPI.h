@@ -6,6 +6,5 @@
 
 #include <vector>
 
-template<typename T>
-using KArray=std::vector<T>;
+template <typename T> using KArray = std::vector<T>;
 #endif

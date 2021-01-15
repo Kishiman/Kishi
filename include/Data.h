@@ -3,53 +3,40 @@
 #include "Compatibility.h"
 #include "Traits.h"
 
-//KeyMask Template for definig abstract classes
-//template <typename T>
+// KeyMask Template for definig abstract classes
+// template <typename T>
 // class ABC
 // {
 // };
 
-//Clonable Template Class
+// Clonable Template Class
 template <typename T, bool non_abstract = true, typename... bases>
-class IClonable : public bases...
-{
+class IClonable : public bases... {
 public:
   virtual ~IClonable() = default;
-  std::unique_ptr<T> Clone_ptr() const
-  {
+  std::unique_ptr<T> Clone_ptr() const {
     return std::unique_ptr<T>(this->Clone());
   }
-  T *Clone() const
-  {
-    return static_cast<T *>(this->CloneImpl());
-  }
+  T *Clone() const { return static_cast<T *>(this->CloneImpl()); }
 
 private:
-  virtual IClonable *CloneImpl() const
-  {
-    return new T(THIS);
-  }
+  virtual IClonable *CloneImpl() const { return new T(THIS); }
   IClonable(){};
   friend T;
-  //friend First;
+  // friend First;
 };
 
-//Specialization for Abstract classes with base classes
+// Specialization for Abstract classes with base classes
 template <typename T, typename... bases>
-class IClonable<T, false, bases...> : public bases...
-{
+class IClonable<T, false, bases...> : public bases... {
 public:
   virtual ~IClonable() = default;
 
-  std::unique_ptr<T> Clone_ptr() const
-  {
+  std::unique_ptr<T> Clone_ptr() const {
     return std::unique_ptr<T>(this->Clone());
   }
 
-  T *Clone() const
-  {
-    return static_cast<T *>(this->CloneImpl());
-  }
+  T *Clone() const { return static_cast<T *>(this->CloneImpl()); }
 
 private:
   virtual IClonable *CloneImpl() const = 0;
@@ -57,48 +44,37 @@ private:
   friend T;
 };
 
-//Specialization for non Abstract derived CRTP with base classes
-template <template <typename T, bool non_abstract, typename... bases> class DERIVEDCRTP,
+// Specialization for non Abstract derived CRTP with base classes
+template <template <typename T, bool non_abstract, typename... bases>
+          class DERIVEDCRTP,
           typename T, typename... bases>
-class IClonable<DERIVEDCRTP<T, true, bases...>, true> : public bases...
-{
+class IClonable<DERIVEDCRTP<T, true, bases...>, true> : public bases... {
 public:
   virtual ~IClonable() = default;
-  std::unique_ptr<T> Clone_ptr() const
-  {
+  std::unique_ptr<T> Clone_ptr() const {
     return std::unique_ptr<T>(this->Clone());
   }
-  T *Clone() const
-  {
-    return static_cast<T *>(this->CloneImpl());
-  }
+  T *Clone() const { return static_cast<T *>(this->CloneImpl()); }
 
 private:
-  virtual IClonable *CloneImpl() const
-  {
-    return new T(THIS);
-  }
+  virtual IClonable *CloneImpl() const { return new T(THIS); }
   IClonable(){};
   friend DERIVEDCRTP<T, true, bases...>;
   friend T;
 };
-//Specialization for Abstract classes with base classes
-template <template <typename T, bool non_abstract, typename... bases> class DERIVEDCRTP,
+// Specialization for Abstract classes with base classes
+template <template <typename T, bool non_abstract, typename... bases>
+          class DERIVEDCRTP,
           typename T, typename... bases>
-class IClonable<DERIVEDCRTP<T, false, bases...>, false> : public bases...
-{
+class IClonable<DERIVEDCRTP<T, false, bases...>, false> : public bases... {
 public:
   virtual ~IClonable() = default;
 
-  std::unique_ptr<T> Clone_ptr() const
-  {
+  std::unique_ptr<T> Clone_ptr() const {
     return std::unique_ptr<T>(this->Clone());
   }
 
-  T *Clone() const
-  {
-    return static_cast<T *>(this->CloneImpl());
-  }
+  T *Clone() const { return static_cast<T *>(this->CloneImpl()); }
 
 private:
   virtual IClonable *CloneImpl() const = 0;
@@ -107,15 +83,13 @@ private:
   friend T;
 };
 
-class CloneABC : public IClonable<CloneABC, false>
-{
+class CloneABC : public IClonable<CloneABC, false> {
 private:
   /* data */
 public:
   int x;
   int y;
-  CloneABC()
-  {
+  CloneABC() {
     x = 0;
     y = 0;
   };
@@ -123,18 +97,15 @@ public:
   ~CloneABC(){};
 };
 
-class CloneImpl1 : public IClonable<CloneImpl1, true, CloneABC>
-{
+class CloneImpl1 : public IClonable<CloneImpl1, true, CloneABC> {
 private:
   /* data */
 public:
-  CloneImpl1()
-  {
+  CloneImpl1() {
     this->x = 1;
     this->y = 1;
   };
-  CloneImpl1(const CloneABC &other)
-  {
+  CloneImpl1(const CloneABC &other) {
     this->y = other.y;
     this->x = 1;
   };
@@ -142,27 +113,22 @@ public:
   ~CloneImpl1(){};
 };
 
-class CloneImpl2 : public IClonable<CloneImpl2, true, CloneABC>
-{
+class CloneImpl2 : public IClonable<CloneImpl2, true, CloneABC> {
 private:
   /* data */
 public:
-  CloneImpl2()
-  {
+  CloneImpl2() {
     this->x = 2;
     this->y = 2;
   };
-  CloneImpl2(const CloneABC &other)
-  {
+  CloneImpl2(const CloneABC &other) {
     this->x = 2;
     this->y = other.y;
   };
 
   ~CloneImpl2(){};
 };
-template <typename T>
-T &Tmp(T &object)
-{
+template <typename T> T &Tmp(T &object) {
   T *tmp = &object;
   return (*tmp);
 }

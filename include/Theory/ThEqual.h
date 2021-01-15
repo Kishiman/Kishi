@@ -5,50 +5,36 @@
 requires: operator==()
 impliments: operator!=()*/
 template <typename T, TheoryAssumtion TA, typename... bases>
-class ThEquality : public Theory<ThEquality<T, TA, bases...>>, virtual public bases...
-{
+class ThEquality : public Theory<ThEquality<T, TA, bases...>>,
+                   virtual public bases... {
 private:
-    ThEquality(){};
+  ThEquality(){};
 };
 
-//stand
+// stand
 template <typename T>
-class ThEquality<T, TheoryAssumtion::stand> : public Theory<ThEquality<T, TheoryAssumtion::stand>>
-{
-    bool Equals(const T &other) const
-    {
-        return this->operator==(other);
-    };
-    bool operator!=(const T &other) const
-    {
-        return !(this->operator==(other));
-    };
+class ThEquality<T, TheoryAssumtion::stand>
+    : public Theory<ThEquality<T, TheoryAssumtion::stand>> {
+  bool Equals(const T &other) const { return this->operator==(other); };
+  bool operator!=(const T &other) const { return !(this->operator==(other)); };
 };
-//promise
+// promise
 template <typename T>
-class ThEquality<T, TheoryAssumtion::promise> : public Theory<ThEquality<T, TheoryAssumtion::promise>>
-{
-    bool Equals(const T &other) const
-    {
-        return this->EqualsImpl(other);
-    };
-    bool operator!=(const T &other) const
-    {
-        return !(this->EqualsImpl(other));
-    };
+class ThEquality<T, TheoryAssumtion::promise>
+    : public Theory<ThEquality<T, TheoryAssumtion::promise>> {
+  bool Equals(const T &other) const { return this->EqualsImpl(other); };
+  bool operator!=(const T &other) const { return !(this->EqualsImpl(other)); };
 
 protected:
-    virtual bool EqualsImpl(const T &one) const = 0;
+  virtual bool EqualsImpl(const T &one) const = 0;
 };
-//fullfil
+// fullfil
 template <typename T, typename base>
-class ThEquality<T, TheoryAssumtion::fullfil, base> : virtual public base
-{
+class ThEquality<T, TheoryAssumtion::fullfil, base> : virtual public base {
 protected:
-    virtual bool EqualsImpl(const base &other) const override
-    {
-        return (THIS).operator==(other);
-    };
+  virtual bool EqualsImpl(const base &other) const override {
+    return (THIS).operator==(other);
+  };
 };
 
 // template <typename T>
