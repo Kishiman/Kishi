@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Expression/Base/Expression.h"
+#include "Base/_IncAll.h"
 #include "ThOperatorInt.h"
 template <typename Y, typename X> struct ThBaseOperatorLV;
 template <typename S> S Unit() { return 1; }
@@ -77,7 +77,7 @@ struct ThOperatorLV : ThOperatorInt<_Y, _X, Base> {
   }
   template <typename S>
   static Ptr<Base<_Y, _X>> lerp(_BASEYX &l, _BASEYX &r, S lerp_factor) {
-    return new ThOperatorLerp<_Y, _X, S>(l, r, lerp);
+    return new ThOperatorLerp<_Y, _X, S>(l, r, lerp_factor);
   }
 };
 

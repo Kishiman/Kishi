@@ -1,5 +1,5 @@
 #pragma once
-#include "Expression/Base/Expression.h"
+#include "../../Expression/Base/_IncAll.h"
 
 // The assumption of the theory regarding a class that derives from it
 enum TheoryAssumtion {

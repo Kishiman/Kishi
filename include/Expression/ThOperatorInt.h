@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Expression/Base/Expression.h"
+#include "Base/_IncAll.h"
 #include "ThOperator.h"
 
 template <typename Y, typename X> struct ThBaseOperatorInt;

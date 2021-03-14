@@ -1,5 +1,5 @@
 #pragma once
-#include "Theory/Base/Theory.h"
+#include "./Base/Theory.h"
 
 /*Equal theory.
 requires: operator==()

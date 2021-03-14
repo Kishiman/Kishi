@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Expression/Base/Expression.h"
+#include "./Base/_IncAll.h"
 #define BASEYX Base<Y, X>
 #define BASEXZ Base<X, Z>
 #define BASEYZ Base<Y, Z>

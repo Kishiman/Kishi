@@ -1,8 +1,8 @@
-#include "Expression/Base/ExpressionInc.h"
+#include "../include/Expression/_IncAll.h"
 #include <cmath>
 #include <iostream>
 #include <stdio.h>
-Ptr<ThBaseOperatorLV<int, float>> GetSymbol() {
+Ptr<ThBaseOperatorLV<int, float>> GetFloorPlusCeil() {
   using Sym = ThBaseOperatorLV<int, float>::Sym;
   using Dyn = ThBaseOperatorLV<int, float>::Dyn;
 
@@ -30,18 +30,24 @@ void TestTheory() {
       [](float f) { return powf(f, 2); });
   Sym res = _floor.op(_power2 + _power2) + _ceil;
   for (int i = 0; i < 10; i++) {
-    float result = res(0.7 * (float)i);
-    printf("(floor(power2 + power2)+ceil)(%f)=%f\n", 0.7 * (float)(i), result);
+    float x = 0.7 * (float)i;
+    float result = res(x);
+    float expected = floor((powf(x, 2) + powf(x, 2))) + ceil(x);
+    printf("(floor(power2 + power2)+ceil)(%f)=%f=%f\n", x, expected, result);
   }
-  Sym x = GetSymbol();
-  Sym a = x + _ceil;
-  ThBaseOperatorLV<float, int>::Sym half(
-      new Dyn([](int x) { return x + 0.5f; }));
-  ThBaseOperatorLV<float, float>::Sym d = half.op(a);
+  Sym floorPlusCeil = GetFloorPlusCeil();
+  Sym a = floorPlusCeil + _ceil;
+  ThBaseOperatorLV<float, int>::Dyn plusHalf(
+      [](int x) { return (float)x + 0.5f; });
+  ThBaseOperatorLV<float, float>::Sym d = plusHalf.op(a);
   for (int i = 0; i < 10; i++) {
-    float result = d(0.7 * (float)i);
-    printf("half(floor + ceil) (%f)=%f\n", 0.7 * (float)(i), result);
+    float x = 0.7 * (float)i;
+    // printf("floorPlusCeil(%f)=%d\n", x, floorPlusCeil(x));
+    // printf("a(%f)=%d\n", x, a(x));
+    float result = d(x);
+    float expected = (0.5 + ((floor(x) + ceil(x)) + ceil(x)));
+    printf("d(%f)=%f=%f\n", x, expected, result);
   }
 };
 
-int main(int argc, char *argv[]) { TestTheory(); }
+int main() { TestTheory(); }

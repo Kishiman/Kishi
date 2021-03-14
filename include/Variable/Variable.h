@@ -1,6 +1,7 @@
 #pragma once
-#include "Math.h"
+#include "../Math.h"
 #include <stdarg.h>
+#include <vector>
 
 template <typename T> class TVariable {
 #define Order derivates.Num()
